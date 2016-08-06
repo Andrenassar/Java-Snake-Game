@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -18,11 +19,13 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
-	private Timer timer = new Timer(200,this);
-	private Snake snake = new Snake();
+	private Timer timer = new Timer(100,this);
 	private JPanel[][] tiles = new JPanel[25][25];
-	private int snake_length = 3; // this might be part o the snake class. We'll see.
+	private int snake_length = 5; // this might be part o the snake class. We'll see.
 	private int head_pos;
+
+	private ArrayList<Point> snake = new ArrayList<Point>();
+	private int head_pos_invis;
 	private int x_cord;
 	private int y_cord;
 	private int direction; // I guess 1 left, 2 right, 3 up 4 down for now then we change into keys
@@ -58,18 +61,31 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// going to hard code this stuff for now then later change
 
 		head_pos = 16; //let's just start the head from there. 
-
-
 		
-		x_cord = 16;
+		head_pos_invis = 19; //invis snake starts here
+		
+		x_cord = 5;
 		y_cord = 16;
 
-		direction = 2; //left first
+		// crap that needs to be cleaned
+		
+		
+		direction = 4; //RIGHT first         // if going to left should initialize in.. specific order etc
 		//initial snake
 		for(int i=0;i<snake_length;i++){
-			tiles[x_cord+i][y_cord].setBackground(Color.green);
-		}
+			tiles[x_cord][y_cord].setBackground(Color.green);
+			
+			System.out.println("Snake being painted out on " + (x_cord) );
+			
+			Point snake_point  = new Point();	
+			
+			snake_point.x = x_cord;
+			snake_point.y = y_cord;
+			snake.add(snake_point);
 
+			x_cord+=1;			
+		}
+		x_cord--;                             // Dirty code that NEEDS to be cleaned
 	}
 
 
@@ -78,18 +94,32 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		super.paintComponent(g);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, 800, 800);
+		
+			
+		
 
 		//snake movement (in a method later?)
 		//left to right movement. 
-		if(direction == 1 ) {
+		if(direction == 1 ) {			
 			
 			head_pos = x_cord - 1; // figure out why this works exactly to avoid errors
-			
 			if(head_pos >= 0  ){
 
 				x_cord = head_pos;				
 				tiles[x_cord][y_cord].setBackground(Color.green);
-				tiles[x_cord+snake_length][y_cord].setBackground(Color.white);
+			
+				Point snake_point  = new Point();
+				snake_point.x = x_cord;
+				snake_point.y = y_cord;
+			
+				System.out.println(snake_point.x + "is the x ......");
+				snake.add(snake_point);
+				
+				System.out.println(snake.get(0).x + " is being removed");
+				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
+				snake.remove(0);
+
+				
 				head_pos --;
 			}
 
@@ -109,7 +139,86 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 				y_cord = head_pos;				
 				tiles[x_cord][y_cord].setBackground(Color.green);
-				tiles[x_cord][y_cord-snake_length].setBackground(Color.white);
+
+				
+				
+				Point snake_point  = new Point();
+				snake_point.x = x_cord;
+				snake_point.y = y_cord;
+			
+				System.out.println(snake_point.x + "is the x ......");
+				snake.add(snake_point);
+				
+				System.out.println(snake.get(0).x + " is being removed");
+				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
+				snake.remove(0);
+
+				
+				
+				//tiles[x_cord][y_cord-snake_length].setBackground(Color.white);
+				head_pos ++;
+			}
+
+			else {
+				System.out.println("You lost");
+				return;
+			}
+		}
+		
+		if(direction == 3 ) {
+
+			
+			head_pos = y_cord-1;
+			//conversion of current head position (in terms of x) now in terms of y)
+			System.out.println(head_pos);
+
+			if(head_pos >= 0  ){
+
+				
+				y_cord = head_pos;				
+				tiles[x_cord][y_cord].setBackground(Color.green);
+				
+				Point snake_point  = new Point();
+				snake_point.x = x_cord;
+				snake_point.y = y_cord;
+			
+				System.out.println(snake_point.x + "is the x ......");
+				snake.add(snake_point);
+				
+				System.out.println(snake.get(0).x + " is being removed");
+				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
+				snake.remove(0);
+				
+				head_pos --;
+			}
+
+			else {
+				System.out.println("You lost");
+				return;
+			}
+		}
+		
+		if(direction == 4 ) {			
+			head_pos = x_cord + 1; // figure out why this works exactly to avoid errors
+			if(head_pos <=24   ){
+
+				x_cord = head_pos;				
+				tiles[x_cord][y_cord].setBackground(Color.green);
+
+				
+				Point snake_point  = new Point();
+					snake_point.x = x_cord;
+					snake_point.y = y_cord;
+				
+					System.out.println(snake_point.x + "is the x ......");
+					snake.add(snake_point);
+					
+					System.out.println(snake.get(0).x + " is being removed");
+					tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
+					snake.remove(0);
+
+					
+					
 				head_pos ++;
 			}
 
@@ -142,6 +251,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 		if(e.getKeyCode() == 38) {
 			direction  = 3;
+			
+			//System.out.println(e.getKeyCode());
 			}
 		
 		if(e.getKeyCode() == 39) {
