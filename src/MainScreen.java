@@ -7,8 +7,6 @@ public class MainScreen {
 
     static void screenDisplay() {
           
-           // making the whole screen here now but will later move it out
-           // into different calsses and make it cleaner
           
            ScorePanel scorePanel = new ScorePanel();
            GamePanel gamePanel = new GamePanel();

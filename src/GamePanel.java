@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private ArrayList<Point> snake = new ArrayList<Point>();
 	private int x_cord;
 	private int y_cord;
-	
+	Point top_of_snake;
 	private int direction; 
 
 
@@ -49,6 +49,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		addTiles();
 		startingPoint();
 		initializeSnake();
+		
+		// test fruit
+		
+		tiles[14][22].setBackground(Color.red);
+		
+		
 		
 	}
 
@@ -77,6 +83,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if(direction == 4 ) {			
 			moveRight();
 		}
+		
+		
 	}
 
 
@@ -85,7 +93,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		repaint();
 				
 		// Speeding up the snake
-		if(System.currentTimeMillis()%10==0 && !(speed_factor < 30)) {
+		if(System.currentTimeMillis()%1000000==0 && !(speed_factor < 30)) {
 		timer.setDelay(speed_factor-=5);
 		}
 	}
@@ -249,10 +257,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		
 	}
-	private void moveDown(){
+	private void moveDown(){ // the down is actually up I think...
 		head_pos = y_cord-1;
 
 		if(head_pos >= 0  ){
+			top_of_snake = snake.get(snake.size()-1);
 			
 			y_cord = head_pos;				
 			tiles[x_cord][y_cord].setBackground(Color.green);
@@ -263,12 +272,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 			snake.add(snake_point);
 			
+			if(!(tiles[14][22].equals(tiles[x_cord][y_cord]))) {
 			tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
 			snake.remove(0);
+			}
+			
+			else {
+				
+				System.out.println("We went here!");
+				snake_length++; //does it matter?
+				//do nothing else I guess
+			}
 			
 			head_pos --;
-		}
+		
+			
 
+		}
+		
+		
 		else {
 			System.out.println("You lost");
 			return;
