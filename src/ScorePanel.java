@@ -19,7 +19,7 @@ public class ScorePanel extends JPanel
               this.setLayout(new FlowLayout());
               this.setBackground(Color.blue);
              
-              JLabel scoreLabel = new JLabel("current score: " + score);
+              final JLabel scoreLabel = new JLabel("current score: " + score);
               scoreLabel.setForeground(Color.white);
              
               final JLabel timeLabel = new JLabel("Time: ");
@@ -36,9 +36,12 @@ public class ScorePanel extends JPanel
                   @Override
                   public void actionPerformed(ActionEvent e) {
                     
-                      timeLabel.setText("Time: " +
-                                                       ((System.currentTimeMillis() - start))/1000);
+                      timeLabel.setText("Time: " +((System.currentTimeMillis() - start))/1000);
+                      scoreLabel.setText("Score: "  + score);
+                     // scoreUpdate(score);
+                      
                   }
+
               });
               timer.start();
        }

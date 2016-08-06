@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 
-		speed_factor = 150;
+		speed_factor = 100;
 
 		timer = new Timer(speed_factor,this);
 		timer.start();
@@ -215,7 +215,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		for (y_cord=0; y_cord<25; y_cord++){
 			for(x_cord=0; x_cord<25; x_cord++){
 				tiles[x_cord][y_cord] = new JPanel();
+				//tiles[x_cord][y_cord].setBorder(BorderFactory.createLineBorder(Color.pink));
+				
 				tiles[x_cord][y_cord].setBorder(BorderFactory.createLineBorder(Color.pink));
+				
 				add(tiles[x_cord][y_cord]);
 				tiles[x_cord][y_cord].setBackground(Color.white);	
 			}
@@ -236,9 +239,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			snake.add(snake_point);
 
 
-			tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
-			snake.remove(0);
+			if(!(tiles[score_point.x][score_point.y].equals(tiles[x_cord][y_cord]))) {
+				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
+				snake.remove(0);
+			}
 
+			else {
+
+				System.out.println("We went here!");
+				snake_length++; //does it matter?
+				point_generator();
+				//do nothing else I guess
+			}
 
 			head_pos --;
 		}
@@ -263,8 +275,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 			snake.add(snake_point);
 
-			tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
-			snake.remove(0);
+			if(!(tiles[score_point.x][score_point.y].equals(tiles[x_cord][y_cord]))) {
+				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
+				snake.remove(0);
+			}
+
+			else {
+
+				System.out.println("We went here!");
+				snake_length++; //does it matter?
+				point_generator();
+				//do nothing else I guess
+			}
 
 
 
@@ -295,9 +317,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 			snake.add(snake_point);
 
-			tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
-			snake.remove(0);
+			if(!(tiles[score_point.x][score_point.y].equals(tiles[x_cord][y_cord]))) {
+				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
+				snake.remove(0);
+			}
 
+			else {
+
+				System.out.println("We went here!");
+				snake_length++; //does it matter?
+				point_generator();
+				//do nothing else I guess
+			}
 
 			//tiles[x_cord][y_cord-snake_length].setBackground(Color.white);
 			head_pos ++;
@@ -356,6 +387,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
 	private void point_generator(){
+		
 		Random rand = new Random();
 		int randomNum = rand.nextInt(24);
 		score_point.x = randomNum;
