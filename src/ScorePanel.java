@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
  
-public class ScorePanel extends JPanel implements ActionListener, Observer {
+public class ScorePanel extends JPanel implements ActionListener {
       
        private int score;
        private Timer timer;
@@ -22,12 +22,16 @@ public class ScorePanel extends JPanel implements ActionListener, Observer {
              
               final JLabel scoreLabel = new JLabel("current score: " + getScore());
               scoreLabel.setForeground(Color.white);
-             
+              
+              final JLabel instructions  = new JLabel("Use Arrow Keys to move!");
+              instructions.setForeground(Color.white);
+              
               final JLabel timeLabel = new JLabel("Time: ");
               timeLabel.setForeground(Color.white);
              
               add(scoreLabel);
               add(timeLabel);
+              add(instructions);
              
              
              
@@ -56,15 +60,6 @@ public class ScorePanel extends JPanel implements ActionListener, Observer {
               timer.start();
              
        }
-
-
-
-
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 
