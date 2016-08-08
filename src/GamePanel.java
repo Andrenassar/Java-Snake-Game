@@ -30,14 +30,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private ArrayList<Point> snake = new ArrayList<Point>();
 	private int x_cord;
 	private int y_cord;
+	private int score;
 	Point top_of_snake;
 	Point score_point;
 	boolean lose;
 	boolean boundary;
 	private int direction; 
+	
+	private ScorePanel scorePanel;
+	
 
 
-	public GamePanel() {
+	public GamePanel(ScorePanel panel) {
 
 		this.setLayout(new GridLayout(25,25));
 		this.setBackground(Color.black);
@@ -68,7 +72,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		//score point
 
+		
+		//get the score panel
+		scorePanel = panel;
+		
+		// intiial score.
+		setScore(0);
 
+		
 	}
 
 	protected void paintComponent(Graphics g){
@@ -130,9 +141,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		repaint();
+		
+		addActionListner(scorePanel);
 
 		// Speeding up the snake
-		if(System.currentTimeMillis()%1000000==0 && !(speed_factor < 30)) {
+		if(System.currentTimeMillis()%1000==0 && !(speed_factor < 30)) {
 			timer.setDelay(speed_factor-=5);
 		}
 
@@ -217,10 +230,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				tiles[x_cord][y_cord] = new JPanel();
 				//tiles[x_cord][y_cord].setBorder(BorderFactory.createLineBorder(Color.pink));
 				
-				tiles[x_cord][y_cord].setBorder(BorderFactory.createLineBorder(Color.pink));
+				tiles[x_cord][y_cord].setBorder(BorderFactory.createLineBorder(Color.black));
 				
 				add(tiles[x_cord][y_cord]);
-				tiles[x_cord][y_cord].setBackground(Color.white);	
+				tiles[x_cord][y_cord].setBackground(Color.black);	
 			}
 		}
 	}
@@ -240,7 +253,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 
 			if(!(tiles[score_point.x][score_point.y].equals(tiles[x_cord][y_cord]))) {
-				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
+				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.black);
 				snake.remove(0);
 			}
 
@@ -248,6 +261,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 				System.out.println("We went here!");
 				snake_length++; //does it matter?
+				setScore(getScore() + 10);
 				point_generator();
 				//do nothing else I guess
 			}
@@ -276,7 +290,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			snake.add(snake_point);
 
 			if(!(tiles[score_point.x][score_point.y].equals(tiles[x_cord][y_cord]))) {
-				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
+				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.black);
 				snake.remove(0);
 			}
 
@@ -284,6 +298,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 				System.out.println("We went here!");
 				snake_length++; //does it matter?
+				setScore(getScore() + 10);
 				point_generator();
 				//do nothing else I guess
 			}
@@ -318,7 +333,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			snake.add(snake_point);
 
 			if(!(tiles[score_point.x][score_point.y].equals(tiles[x_cord][y_cord]))) {
-				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
+				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.black);
 				snake.remove(0);
 			}
 
@@ -326,6 +341,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 				System.out.println("We went here!");
 				snake_length++; //does it matter?
+				setScore(getScore() + 10);
 				point_generator();
 				//do nothing else I guess
 			}
@@ -358,7 +374,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			snake.add(snake_point);
 
 			if(!(tiles[score_point.x][score_point.y].equals(tiles[x_cord][y_cord]))) {
-				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.white);
+				tiles[snake.get(0).x][snake.get(0).y].setBackground(Color.black);
 				snake.remove(0);
 			}
 
@@ -366,6 +382,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 				System.out.println("We went here!");
 				snake_length++; //does it matter?
+				setScore(getScore() + 10);
 				point_generator();
 				//do nothing else I guess
 			}
@@ -397,6 +414,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		System.out.println("We would have a red at  X: "+ score_point.x + " and at Y : "+ score_point.y);
 		tiles[score_point.x][score_point.y].setBackground(Color.red);
 		
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public void addActionListner(ScorePanel scorePanel) {
+		// TODO Auto-generated method stub
+
+		scorePanel.setScore(getScore());
+		System.out.println( score + " is the current score!!!!!!!!");
 	}
 
 }

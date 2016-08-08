@@ -2,13 +2,14 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
  
-public class ScorePanel extends JPanel
-                                         implements ActionListener {
+public class ScorePanel extends JPanel implements ActionListener, Observer {
       
        private int score;
        private Timer timer;
@@ -19,7 +20,7 @@ public class ScorePanel extends JPanel
               this.setLayout(new FlowLayout());
               this.setBackground(Color.blue);
              
-              final JLabel scoreLabel = new JLabel("current score: " + score);
+              final JLabel scoreLabel = new JLabel("current score: " + getScore());
               scoreLabel.setForeground(Color.white);
              
               final JLabel timeLabel = new JLabel("Time: ");
@@ -37,7 +38,7 @@ public class ScorePanel extends JPanel
                   public void actionPerformed(ActionEvent e) {
                     
                       timeLabel.setText("Time: " +((System.currentTimeMillis() - start))/1000);
-                      scoreLabel.setText("Score: "  + score);
+                      scoreLabel.setText("Score: "  + getScore());
                      // scoreUpdate(score);
                       
                   }
@@ -45,6 +46,8 @@ public class ScorePanel extends JPanel
               });
               timer.start();
        }
+       
+       
  
  
        @Override
@@ -53,5 +56,37 @@ public class ScorePanel extends JPanel
               timer.start();
              
        }
+
+
+
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	public void addActionListner(GamePanel gamePanel) {
+
+		setScore(gamePanel.getScore());
+		System.out.println( getScore() + " is the current score!!!!!!!!");
+	}
+
+
+
+
+	public int getScore() {
+		return score;
+	}
+
+
+
+
+	public void setScore(int score) {
+		this.score = score;
+	}
       
 }

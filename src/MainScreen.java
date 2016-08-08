@@ -1,15 +1,17 @@
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
 
-public class MainScreen {
+public class MainScreen implements ActionListener {
 
-    static void screenDisplay() {
+    static void screenDisplay()  {
           
           
            ScorePanel scorePanel = new ScorePanel();
-           GamePanel gamePanel = new GamePanel();
+           GamePanel gamePanel = new GamePanel(scorePanel);
           
            JFrame  frame = new JFrame( "That snake called sammy");
            frame.setLayout(new BorderLayout());
@@ -18,7 +20,8 @@ public class MainScreen {
           
            frame.getContentPane().add(scorePanel, BorderLayout.NORTH);
            frame.getContentPane().add(gamePanel);
-          
+           
+           
           
            frame.setSize(400, 400);
            frame.setVisible(true);
@@ -26,4 +29,10 @@ public class MainScreen {
           
           
     }
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }
